@@ -1,9 +1,13 @@
 package library.backend.api.models;
 
+import library.backend.api.models.Issue;
+
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
+import jakarta.persistence.OneToMany;
 import jakarta.persistence.GenerationType;
+import java.util.List;
 
 @Entity
 public class Student {
@@ -13,6 +17,9 @@ public class Student {
     private String email;
     private String phoneNo;
     private String password;
+
+    @OneToMany(mappedBy = "student")
+    private List<Issue> issues;
 
     public Student() {
     }
