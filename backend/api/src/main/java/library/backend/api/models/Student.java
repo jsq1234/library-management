@@ -69,4 +69,12 @@ public class Student {
     public void setPassword(String password) {
         this.password = password;
     }
+
+    public List<Issue> getIssues() {
+        return issues;
+    }
+
+    public void setIssues(List<Issue> issues) {
+        this.issues = issues;
+    }
 }
