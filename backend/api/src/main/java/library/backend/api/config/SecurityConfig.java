@@ -4,6 +4,7 @@ import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.AuthenticationProvider;
+import org.springframework.security.authentication.ProviderManager;
 import org.springframework.security.authentication.dao.DaoAuthenticationProvider;
 import org.springframework.security.config.annotation.authentication.configuration.AuthenticationConfiguration;
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
@@ -16,16 +17,35 @@ import org.springframework.security.web.AuthenticationEntryPoint;
 import org.springframework.security.web.SecurityFilterChain;
 import org.springframework.security.web.authentication.UsernamePasswordAuthenticationFilter;
 
+import library.backend.api.services.EmailDetailsServiceImpl;
+import library.backend.api.services.PhoneNoDetailsServiceImpl;
+
+import java.util.List;
+
 @Configuration
 public class SecurityConfig {
 
         private final AuthenticationEntryPoint authenticationEntryPoint;
         private final JwtAuthenticationFilter jwtAuthenticationFilter;
+        private final EmailDetailsServiceImpl emailDetailsService;
+        private final PhoneNoDetailsServiceImpl phoneNoDetailsService;
+        // private final UserDetailsService userDetailsService;
+
+        // public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint,
+        // JwtAuthenticationFilter jwtAuthenticationFilter, UserDetailsService
+        // userDetailsService) {
+        // this.authenticationEntryPoint = authenticationEntryPoint;
+        // this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+        // this.userDetailsService = userDetailsService;
+        // }
 
         public SecurityConfig(AuthenticationEntryPoint authenticationEntryPoint,
-                        JwtAuthenticationFilter jwtAuthenticationFilter) {
+                        JwtAuthenticationFilter jwtAuthenticationFilter, EmailDetailsServiceImpl emailDetailsService,
+                        PhoneNoDetailsServiceImpl phoneNoDetailsService) {
                 this.authenticationEntryPoint = authenticationEntryPoint;
                 this.jwtAuthenticationFilter = jwtAuthenticationFilter;
+                this.emailDetailsService = emailDetailsService;
+                this.phoneNoDetailsService = phoneNoDetailsService;
         }
 
         @Bean
@@ -59,22 +79,47 @@ public class SecurityConfig {
                 return http.build();
         }
 
+        // @Bean
+        // public AuthenticationManager authenticationManager(
+        // AuthenticationConfiguration config) throws Exception {
+        // return config.getAuthenticationManager();
+        // }
+
         @Bean
-        public AuthenticationManager authenticationManager(
-                        AuthenticationConfiguration config) throws Exception {
-                return config.getAuthenticationManager();
+        public AuthenticationManager authenticationManager(PasswordEncoder passwordEncoder) {
+                return new ProviderManager(
+                                List.of(emailAuthenticationProvider(passwordEncoder),
+                                                phoneNoAuthenticationProvider(passwordEncoder)));
         }
 
         @Bean
-        public AuthenticationProvider authenticationProvider(
-                        UserDetailsService userDetailsService,
-                        PasswordEncoder passwordEncoder) {
+        public AuthenticationProvider emailAuthenticationProvider(PasswordEncoder passwordEncoder) {
                 var authenticationProvider = new DaoAuthenticationProvider();
-                authenticationProvider.setUserDetailsService(userDetailsService);
+                authenticationProvider.setUserDetailsService(emailDetailsService);
                 authenticationProvider.setPasswordEncoder(passwordEncoder);
 
                 return authenticationProvider;
         }
+
+        @Bean
+        AuthenticationProvider phoneNoAuthenticationProvider(PasswordEncoder passwordEncoder) {
+                var authenticationProvider = new DaoAuthenticationProvider();
+                authenticationProvider.setUserDetailsService(phoneNoDetailsService);
+                authenticationProvider.setPasswordEncoder(passwordEncoder);
+
+                return authenticationProvider;
+        }
+
+        // @Bean
+        // public AuthenticationProvider authenticationProvider(
+        // UserDetailsService userDetailsService,
+        // PasswordEncoder passwordEncoder) {
+        // var authenticationProvider = new DaoAuthenticationProvider();
+        // authenticationProvider.setUserDetailsService(userDetailsService);
+        // authenticationProvider.setPasswordEncoder(passwordEncoder);
+
+        // return authenticationProvider;
+        // }
 
         @Bean
         public PasswordEncoder bCryptPasswordEncoder() {
