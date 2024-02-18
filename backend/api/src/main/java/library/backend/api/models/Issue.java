@@ -19,24 +19,22 @@ public class Issue {
     private Integer issuePeriod;
 
     @ManyToOne
-    @JoinColumn(name = "student_id", referencedColumnName = "id")
-    private Student student;
+    @JoinColumn(name = "user_id", referencedColumnName = "id")
+    private User user;
 
     public Issue() {
     }
 
     // Explicit constructor
-    public Issue(LocalDate issueDate, LocalDate returnDate, Integer issuePeriod, Student student) {
+    public Issue(LocalDate issueDate, LocalDate returnDate, Integer issuePeriod, User user) {
         this.issueDate = issueDate;
         this.returnDate = returnDate;
         this.issuePeriod = issuePeriod;
-        this.student = student;
+        this.user = user;
     }
 
-    // Getters and Setters
-
     public Long getId() {
-        return id;
+        return this.id;
     }
 
     public void setId(Long id) {
@@ -44,7 +42,7 @@ public class Issue {
     }
 
     public LocalDate getIssueDate() {
-        return issueDate;
+        return this.issueDate;
     }
 
     public void setIssueDate(LocalDate issueDate) {
@@ -52,7 +50,7 @@ public class Issue {
     }
 
     public LocalDate getReturnDate() {
-        return returnDate;
+        return this.returnDate;
     }
 
     public void setReturnDate(LocalDate returnDate) {
@@ -60,18 +58,19 @@ public class Issue {
     }
 
     public Integer getIssuePeriod() {
-        return issuePeriod;
+        return this.issuePeriod;
     }
 
     public void setIssuePeriod(Integer issuePeriod) {
         this.issuePeriod = issuePeriod;
     }
 
-    public Student getStudent() {
-        return student;
+    public User getUser() {
+        return this.user;
     }
 
-    public void setStudent(Student student) {
-        this.student = student;
+    public void setUser(User user) {
+        this.user = user;
     }
+
 }

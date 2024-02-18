@@ -6,7 +6,6 @@ import org.springframework.http.HttpHeaders;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
 import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springframework.security.core.userdetails.UserDetailsService;
 import org.springframework.stereotype.Component;
 import org.springframework.web.filter.OncePerRequestFilter;
 
@@ -14,15 +13,16 @@ import jakarta.servlet.FilterChain;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
+import library.backend.api.services.EmailDetailsServiceImpl;
 import library.backend.api.utils.JwtUtils;
 
 @Component
 public class JwtAuthenticationFilter extends OncePerRequestFilter {
 
-    private final UserDetailsService userDetailsService;
+    private final EmailDetailsServiceImpl emailDetailsService;
 
-    public JwtAuthenticationFilter(UserDetailsService userDetailsService) {
-        this.userDetailsService = userDetailsService;
+    public JwtAuthenticationFilter(EmailDetailsServiceImpl emailDetailsService) {
+        this.emailDetailsService = emailDetailsService;
     }
 
     @Override
@@ -38,7 +38,7 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
                 String email = JwtUtils.getEmailFromToken(jwtToken);
 
                 // fetch user details from email
-                UserDetails userDetails = userDetailsService.loadUserByUsername(email);
+                UserDetails userDetails = emailDetailsService.loadUserByUsername(email);
 
                 // Create Authentication Token
                 var authenticationToken = new UsernamePasswordAuthenticationToken(userDetails, null,
