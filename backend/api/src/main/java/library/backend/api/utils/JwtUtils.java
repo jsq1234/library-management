@@ -40,4 +40,11 @@ public class JwtUtils {
 
         return null;
     }
+
+    public static String generateToken(String username) {
+        return Jwts.builder()
+                .subject(username)
+                .signWith(secretKey)
+                .compact();
+    }
 }
