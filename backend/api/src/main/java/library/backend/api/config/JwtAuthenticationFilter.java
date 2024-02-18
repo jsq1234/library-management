@@ -57,8 +57,12 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         // Extract authentication header
         var authHeader = request.getHeader(HttpHeaders.AUTHORIZATION);
 
+        if (authHeader == null || authHeader.isEmpty()) {
+            return null;
+        }
+
         // Bearer <JWT TOKEN>
-        if (authHeader.length() > 0 && authHeader.startsWith("Bearer ")) {
+        if (authHeader.length() > 7 && authHeader.startsWith("Bearer ")) {
             return authHeader.substring(7);
         }
 
