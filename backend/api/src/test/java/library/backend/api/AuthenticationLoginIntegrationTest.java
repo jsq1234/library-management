@@ -24,7 +24,7 @@ import java.util.HashMap;
 
 @SpringBootTest
 @AutoConfigureMockMvc
-public class AuthenticationIntegrationTest {
+public class AuthenticationLoginIntegrationTest {
 
     @Autowired
     private MockMvc mockMvc;
