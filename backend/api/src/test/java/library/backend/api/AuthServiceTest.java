@@ -57,7 +57,7 @@ public class AuthServiceTest {
         user.setEmail(dto.email());
         user.setPassword("encodedPassword");
         user.setPhoneNo(dto.phoneNo());
-        user.setRole("USER");
+        user.setRole("ROLE_USER");
 
         verify(userRepository).save(user);
     }

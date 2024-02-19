@@ -32,7 +32,7 @@ public class BookController {
     }
 
     @PostMapping()
-    @PreAuthorize("ADMIN")
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         Book savedBook = bookRepository.save(book);
         return new ResponseEntity<>(savedBook, HttpStatusCode.valueOf(200));
