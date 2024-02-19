@@ -59,7 +59,7 @@ public class AuthService {
         user.setEmail(signUpRequestDto.email());
         user.setPassword(encodedPassword);
         user.setPhoneNo(signUpRequestDto.phoneNo());
-        user.setRole("USER");
+        user.setRole("ROLE_USER");
 
         userRepository.save(user);
 
