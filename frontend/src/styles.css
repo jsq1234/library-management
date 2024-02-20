@@ -1,7 +1,20 @@
 /* You can add global styles to this file, and also import other style files */
-:root, ::before, ::after{
+*, :root, ::before, ::after{
     box-sizing: border-box;
+    font-family: Verdana, Geneva, Tahoma, sans-serif;
+    --primary: #DD946F ;
+    --primary-hover: #CD7D7C;                
+    --secondary: #EFD0F8;
+    --secondary-hover: #B8A1D9;
+    --aura: #9743ff80;
+    --background: #806dff;
 }
 body{
+    margin: 0px;
+    height: 100%;
+}
+
+p{
+    padding: 0px;
     margin: 0px;
 }
