@@ -3,6 +3,7 @@ package library.backend.api.controllers;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatusCode;
 import org.springframework.http.ResponseEntity;
+import org.springframework.security.access.prepost.PreAuthorize;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.PostMapping;
@@ -31,6 +32,7 @@ public class BookController {
     }
 
     @PostMapping()
+    @PreAuthorize("hasRole('ADMIN')")
     public ResponseEntity<Book> addBook(@RequestBody Book book) {
         Book savedBook = bookRepository.save(book);
         return new ResponseEntity<>(savedBook, HttpStatusCode.valueOf(200));
