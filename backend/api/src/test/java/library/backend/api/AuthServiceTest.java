@@ -1,13 +1,16 @@
 package library.backend.api;
 
-import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.DisplayName;
 import org.junit.jupiter.api.Test;
+import org.junit.jupiter.api.extension.ExtendWith;
+import org.mockito.InjectMocks;
 import org.mockito.Mock;
-import org.mockito.MockitoAnnotations;
+import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
+import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
+import library.backend.api.dto.LoginRequestDto;
 import library.backend.api.dto.SignUpRequestDto;
 import library.backend.api.exceptions.UserAlreadyExistsException;
 import library.backend.api.models.User;
@@ -18,6 +21,7 @@ import static org.junit.jupiter.api.Assertions.assertThrows;
 import static org.mockito.Mockito.verify;
 import static org.mockito.Mockito.when;
 
+@ExtendWith(MockitoExtension.class)
 public class AuthServiceTest {
     @Mock
     private AuthenticationManager authenticationManager;
@@ -28,13 +32,8 @@ public class AuthServiceTest {
     @Mock
     private UserRepository userRepository;
 
+    @InjectMocks
     private AuthService authService;
-
-    @BeforeEach
-    public void setUp() {
-        MockitoAnnotations.openMocks(this);
-        this.authService = new AuthService(authenticationManager, passwordEncoder, userRepository);
-    }
 
     @Test
     @DisplayName("SignUpWithExistingUserThrowsException: Signing up with using existing credentials throws error.")
@@ -60,5 +59,11 @@ public class AuthServiceTest {
         user.setRole("ROLE_USER");
 
         verify(userRepository).save(user);
+    }
+
+    public void LoginWithNonExistingUser_FailsTest() throws Exception {
+        LoginRequestDto dto = new LoginRequestDto("test@example.com", null, "password");
+        when(userRepository.findByEmail("test@example.com")).thenReturn(java.util.Optional.empty());
+        assertThrows(BadCredentialsException.class, () -> authService.login(dto));
     }
 }
