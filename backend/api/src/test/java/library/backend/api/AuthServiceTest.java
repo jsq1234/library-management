@@ -61,6 +61,7 @@ public class AuthServiceTest {
         verify(userRepository).save(user);
     }
 
+    @Test
     public void LoginWithNonExistingUser_FailsTest() throws Exception {
         LoginRequestDto dto = new LoginRequestDto("test@example.com", null, "password");
         when(userRepository.findByEmail("test@example.com")).thenReturn(java.util.Optional.empty());
