@@ -24,7 +24,5 @@ export class LoginComponent {
 
   onSubmit() {
     const { email, password } = this.loginForm.value;
-    console.log(email);
-    console.log(password);
   }
 }
