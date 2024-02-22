@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -13,6 +14,7 @@ export class LoginComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
+  private isBadCredentials = false;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -27,6 +29,10 @@ export class LoginComponent {
     return this.loginForm.controls['password'];
   }
 
+  get badCredentials() {
+    return this.isBadCredentials;
+  }
+
   onSubmit() {
     const { email, password } = this.loginForm.value;
     this.authService
@@ -36,12 +42,18 @@ export class LoginComponent {
       })
       .subscribe({
         next: (value) => {
+          this.isBadCredentials = false;
           this.authService.user = value;
           localStorage.setItem('user', JSON.stringify(value));
           this.router.navigate(['/home']);
         },
         error: (err) => {
-          console.log(err);
+          if (err instanceof HttpErrorResponse) {
+            if (err.error.status === 'UNAUTHORIZED') {
+              this.isBadCredentials = true;
+            }
+            // TODO : Add support of internal server error and a custom error page
+          }
         },
       });
   }

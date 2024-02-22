@@ -10,7 +10,7 @@ import { LoginRequest } from '../interfaces/login-request';
 })
 export class AuthService {
   private authenticatedUser: UserInfo | null = null;
-  private baseUrl = 'http://localhost:8080/api/auth';
+  private baseUrl = 'http://localhost:8081/api/auth';
   constructor(private http: HttpClient) {}
 
   public login(requestBody: LoginRequest): Observable<UserInfo> {

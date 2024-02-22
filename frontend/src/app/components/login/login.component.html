@@ -4,7 +4,7 @@
         <div class="form-field">
             <label for="email">Email</label>
             <input 
-            [class.error] = "email.invalid && (email.dirty || email.touched)"
+            [class.error] = "(email.invalid && (email.dirty || email.touched)) || badCredentials"
             type="email" 
             placeholder="test@example.com" 
             name="email" 
@@ -21,7 +21,7 @@
         <div class="form-field">
             <label for="password">Password</label>
             <input 
-            [class.error] = "password.invalid && (password.dirty || password.touched)"
+            [class.error] = "(password.invalid && (password.dirty || password.touched)) || badCredentials"
             type="password" 
             name="password" 
             formControlName="password"
@@ -32,7 +32,10 @@
           >
             <div *ngIf="password.errors?.['required']">Password is required.</div>
           </small>
-        </div> 
+        </div>
+        <small *ngIf="badCredentials" class="s-error">
+            <div *ngIf="badCredentials">email or password incorrect.</div>
+        </small>
         <button class="submit-button" [disabled]="loginForm.invalid" type="submit">
             Login
         </button>
