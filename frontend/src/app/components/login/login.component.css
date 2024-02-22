@@ -1,18 +1,19 @@
 .form-container {
     width: 400px;
-    margin: 2rem auto;
+    margin: 0 auto;
+    margin-top: 8rem;
     border: 2px solid rgb(163, 163, 163);
     border-radius: 6px;
     padding: 3rem 1.5rem;
+    padding-top: 0;
     border-radius: 16px;
     box-shadow: 0 0 0 3px rgba(164, 164, 164, 0.455);
 }
 
-h2{
+h1{
     text-align: center;
-    margin: 0;
-    padding: 2px;
-    margin-bottom: 2rem;
+    margin: 3.25rem;
+    font-family: 'Courier New', Courier, monospace;
 }
 
 form {
@@ -47,11 +48,20 @@ input[type="email"]:focus,
 input[type="password"]:focus {
     outline: none;
     border-color: #007bff;
-    box-shadow: 0 0 0 3px rgba(0, 123, 255, 0.2);
+    box-shadow: 0 0 2px 4px rgba(0, 123, 255, 0.2);
+}
+
+input.error, input.error:focus{
+    outline: none;
+    border-color: red;
+    background-color: rgba(255, 150, 150, 0.5);
+    box-shadow: 0 0 2px 4px rgba(255, 42, 42, 0.5);
 }
 
 .submit-button {
     padding: 0.5rem 1rem;
+    margin-bottom: 5px;
+    font-size: 1.25rem;
     background-color: #007bff;
     margin-top: 0.75rem;
     color: #fff;
@@ -74,7 +84,7 @@ input[type="password"]:focus {
     font-size: small;
 }
 
-.error{
+.s-error{
     color: rgb(251, 3, 3);
 }
 
