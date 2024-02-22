@@ -1,6 +1,6 @@
 package library.backend.api.dto;
 
-import library.backend.api.utils.AuthStatus;
+import library.backend.api.utils.Status;
 import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
@@ -14,5 +14,5 @@ public class AuthResponseDto {
     private final String phoneNo;
     private final String token;
     private final String name;
-    private final AuthStatus status;
+    private final Status status;
 }

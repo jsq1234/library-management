@@ -5,6 +5,7 @@ import org.springframework.security.authentication.UsernamePasswordAuthenticatio
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import library.backend.api.utils.Status;
 import library.backend.api.dto.AuthResponseDto;
 import library.backend.api.dto.LoginRequestDto;
 import library.backend.api.dto.SignUpRequestDto;
@@ -12,7 +13,6 @@ import library.backend.api.exceptions.MissingLoginFieldsException;
 import library.backend.api.exceptions.UserAlreadyExistsException;
 import library.backend.api.models.User;
 import library.backend.api.repositories.UserRepository;
-import library.backend.api.utils.AuthStatus;
 import library.backend.api.utils.JwtUtils;
 
 @Service
@@ -52,7 +52,7 @@ public class AuthService {
                 .name(authenticatedUser.getName())
                 .phoneNo(authenticatedUser.getPhoneNo())
                 .token(jwtToken)
-                .status(AuthStatus.LOGIN_SUCCESS)
+                .status(Status.LOGIN_SUCCESS)
                 .build();
     }
 
@@ -80,7 +80,7 @@ public class AuthService {
                 .name(user.getName())
                 .phoneNo(user.getPhoneNo())
                 .token(jwtToken)
-                .status(AuthStatus.REGISTER_SUCCESS)
+                .status(Status.REGISTER_SUCCESS)
                 .build();
     }
 }

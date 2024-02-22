@@ -7,11 +7,11 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import jakarta.validation.Valid;
 import library.backend.api.dto.AuthResponseDto;
 import library.backend.api.dto.LoginRequestDto;
 import library.backend.api.dto.SignUpRequestDto;
 import library.backend.api.services.AuthService;
-import library.backend.api.utils.AuthStatus;
 
 @RestController
 @RequestMapping("/api/auth")
@@ -32,7 +32,7 @@ public class AuthController {
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponseDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
+    public ResponseEntity<AuthResponseDto> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
         AuthResponseDto response = authService.signUp(signUpRequestDto);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
