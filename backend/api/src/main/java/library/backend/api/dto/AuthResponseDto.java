@@ -14,5 +14,6 @@ public class AuthResponseDto {
     private final String phoneNo;
     private final String token;
     private final String name;
+    private final String role;
     private final Status status;
 }

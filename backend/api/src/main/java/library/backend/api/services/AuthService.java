@@ -52,6 +52,7 @@ public class AuthService {
                 .name(authenticatedUser.getName())
                 .phoneNo(authenticatedUser.getPhoneNo())
                 .token(jwtToken)
+                .role(authenticatedUser.getRole())
                 .status(Status.LOGIN_SUCCESS)
                 .build();
     }
@@ -80,6 +81,7 @@ public class AuthService {
                 .name(user.getName())
                 .phoneNo(user.getPhoneNo())
                 .token(jwtToken)
+                .role(user.getRole())
                 .status(Status.REGISTER_SUCCESS)
                 .build();
     }

@@ -42,17 +42,17 @@ public class AuthenticationSignUpIntegrationTest {
         User mockUser = new User();
         mockUser.setEmail("test@example.com");
         mockUser.setRole("USER");
+        mockUser.setName("test");
+        mockUser.setPhoneNo("8178610509");
         mockUser.setPassword(passwordEncoder.encode("password"));
 
         when(userRepository.existsByEmail(any())).thenReturn(true);
 
-        HashMap<String, String> requestBody = new HashMap<>();
-        requestBody.put("email", "test@example.com");
-        requestBody.put("password", "password");
+        SignUpRequestDto dto = new SignUpRequestDto("test", "test@example.com", "8178610509", "password");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
-                .content(objectMapper.writeValueAsString(requestBody)))
+                .content(objectMapper.writeValueAsString(dto)))
                 .andExpect(status().isConflict())
                 .andExpect(jsonPath("$.error").exists())
                 .andExpect(jsonPath("$.error").value("User already exists"));
