@@ -18,7 +18,7 @@ export class AuthService {
   }
 
   public signUp(requestBody: SignupRequest): Observable<UserInfo> {
-    return this.http.post<UserInfo>(`${this.baseUrl}/sign-up`, requestBody);
+    return this.http.post<UserInfo>(`${this.baseUrl}/signup`, requestBody);
   }
 
   public logout() {
