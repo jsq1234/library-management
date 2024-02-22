@@ -1,6 +1,7 @@
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
+import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
   selector: 'app-login',
@@ -12,7 +13,11 @@ export class LoginComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
   });
-  constructor(private formBuilder: FormBuilder, private router: Router) {}
+  constructor(
+    private formBuilder: FormBuilder,
+    private router: Router,
+    private authService: AuthService
+  ) {}
 
   get email() {
     return this.loginForm.controls['email'];
@@ -24,6 +29,20 @@ export class LoginComponent {
 
   onSubmit() {
     const { email, password } = this.loginForm.value;
-    console.log(email, password);
+    this.authService
+      .login({
+        email: email as string,
+        password: password as string,
+      })
+      .subscribe({
+        next: (value) => {
+          this.authService.user = value;
+          localStorage.setItem('user', JSON.stringify(value));
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          console.log(err);
+        },
+      });
   }
 }
