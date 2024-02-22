@@ -35,7 +35,7 @@ public class SecurityConfig {
                 http.authorizeHttpRequests(
                                 requestMatcher -> requestMatcher
                                                 .requestMatchers("/api/auth/login/**").permitAll()
-                                                .requestMatchers("/api/auth/sign-up/**").permitAll()
+                                                .requestMatchers("/api/auth/signup/**").permitAll()
                                                 .anyRequest().authenticated());
 
                 // Authentication Entry Point -> Exception Handler

@@ -15,9 +15,6 @@ import jakarta.validation.constraints.*;
 import java.util.Collection;
 import java.util.List;
 
-import org.springframework.security.authentication.jaas.AuthorityGranter;
-import org.springframework.security.authorization.AuthoritiesAuthorizationManager;
-import org.springframework.security.authorization.AuthorityAuthorizationManager;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
@@ -37,6 +34,9 @@ public class User implements UserDetails {
     @Email(message = "Email should be valid")
     @Column(unique = true)
     private String email;
+
+    @NotBlank(message = "Name is required")
+    private String name;
 
     @NotBlank(message = "Phone number is required")
     @Pattern(regexp = "\\d{10}", message = "Phone number should be 10 digits")
@@ -66,17 +66,17 @@ public class User implements UserDetails {
 
     @Override
     public boolean isAccountNonExpired() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isAccountNonLocked() {
-        return false;
+        return true;
     }
 
     @Override
     public boolean isCredentialsNonExpired() {
-        return false;
+        return true;
     }
 
     @Override

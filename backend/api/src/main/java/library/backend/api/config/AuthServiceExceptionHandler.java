@@ -1,7 +1,5 @@
 package library.backend.api.config;
 
-import org.hibernate.exception.DataException;
-import org.springframework.dao.DataAccessException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;

@@ -99,7 +99,7 @@ public class AuthorizationTest {
 
         AuthResponseDto dto = objectMapper.readValue(jsonResult, AuthResponseDto.class);
 
-        return dto.token();
+        return dto.getToken();
     }
 
 }

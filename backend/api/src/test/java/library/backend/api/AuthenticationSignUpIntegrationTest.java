@@ -50,7 +50,7 @@ public class AuthenticationSignUpIntegrationTest {
         requestBody.put("email", "test@example.com");
         requestBody.put("password", "password");
 
-        mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/sign-up")
+        mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(requestBody)))
                 .andExpect(status().isConflict())
@@ -64,14 +64,14 @@ public class AuthenticationSignUpIntegrationTest {
 
         SignUpRequestDto dto = new SignUpRequestDto("manan", "text@example.com", "8178610509", "password");
 
-        var request = MockMvcRequestBuilders.post("/api/auth/sign-up")
+        var request = MockMvcRequestBuilders.post("/api/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
                 .content(objectMapper.writeValueAsString(dto));
 
         mockMvc.perform(request)
-                .andExpect(status().isOk())
+                .andExpect(status().isCreated())
                 .andExpect(jsonPath("$.token").exists())
-                .andExpect(jsonPath("$.authStatus").value("REGISTER_SUCCESS"));
+                .andExpect(jsonPath("$.status").value("REGISTER_SUCCESS"));
 
     }
 }

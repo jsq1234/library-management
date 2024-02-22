@@ -7,10 +7,8 @@ import org.mockito.InjectMocks;
 import org.mockito.Mock;
 import org.mockito.junit.jupiter.MockitoExtension;
 import org.springframework.security.authentication.AuthenticationManager;
-import org.springframework.security.authentication.BadCredentialsException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 
-import library.backend.api.dto.LoginRequestDto;
 import library.backend.api.dto.SignUpRequestDto;
 import library.backend.api.exceptions.UserAlreadyExistsException;
 import library.backend.api.models.User;
@@ -52,11 +50,13 @@ public class AuthServiceTest {
 
         authService.signUp(dto);
 
-        var user = new User();
-        user.setEmail(dto.email());
-        user.setPassword("encodedPassword");
-        user.setPhoneNo(dto.phoneNo());
-        user.setRole("ROLE_USER");
+        User user = User.builder()
+                .email(dto.email())
+                .password("encodedPassword")
+                .role("USER")
+                .phoneNo(dto.phoneNo())
+                .name(dto.name())
+                .build();
 
         verify(userRepository).save(user);
     }

@@ -25,20 +25,18 @@ public class AuthController {
 
     @PostMapping("/login")
     public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
-        var jwtToken = authService.login(loginRequestDto);
-        var authResponseDto = new AuthResponseDto(jwtToken, AuthStatus.LOGIN_SUCCESS);
+        AuthResponseDto response = authService.login(loginRequestDto);
         return ResponseEntity
                 .status(HttpStatus.OK)
-                .body(authResponseDto);
+                .body(response);
     }
 
-    @PostMapping("/sign-up")
+    @PostMapping("/signup")
     public ResponseEntity<AuthResponseDto> signUp(@RequestBody SignUpRequestDto signUpRequestDto) {
-        var jwtToken = authService.signUp(signUpRequestDto);
-        var authResponseDto = new AuthResponseDto(jwtToken, AuthStatus.REGISTER_SUCCESS);
+        AuthResponseDto response = authService.signUp(signUpRequestDto);
         return ResponseEntity
-                .status(HttpStatus.OK)
-                .body(authResponseDto);
+                .status(HttpStatus.CREATED)
+                .body(response);
     }
 
 }
