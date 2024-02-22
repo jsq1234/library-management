@@ -1,6 +1,6 @@
 package library.backend.api.utils;
 
-public enum AuthStatus {
+public enum Status {
     REGISTER_SUCCESS,
     REGISTER_FAILED,
     LOGIN_SUCCESS,

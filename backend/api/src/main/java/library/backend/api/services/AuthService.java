@@ -2,10 +2,11 @@ package library.backend.api.services;
 
 import org.springframework.security.authentication.AuthenticationManager;
 import org.springframework.security.authentication.UsernamePasswordAuthenticationToken;
-import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import library.backend.api.utils.Status;
+import library.backend.api.dto.AuthResponseDto;
 import library.backend.api.dto.LoginRequestDto;
 import library.backend.api.dto.SignUpRequestDto;
 import library.backend.api.exceptions.MissingLoginFieldsException;
@@ -28,7 +29,7 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public String login(LoginRequestDto loginRequest) throws MissingLoginFieldsException {
+    public AuthResponseDto login(LoginRequestDto loginRequest) throws MissingLoginFieldsException {
         if (loginRequest.password() == null || (loginRequest.email() == null && loginRequest.phoneNo() == null)) {
             throw new MissingLoginFieldsException("Incorrect login message format");
         }
@@ -41,26 +42,45 @@ public class AuthService {
 
     }
 
-    private String loginAndGenerateJwtToken(String username, String password) {
+    private AuthResponseDto loginAndGenerateJwtToken(String username, String password) {
         var authToken = new UsernamePasswordAuthenticationToken(username, password);
         var authenticate = authManager.authenticate(authToken);
-        return JwtUtils.generateToken(((UserDetails) (authenticate.getPrincipal())).getUsername());
+        var authenticatedUser = (User) authenticate.getPrincipal();
+        String jwtToken = JwtUtils.generateToken(authenticatedUser.getUsername());
+        return AuthResponseDto.builder()
+                .email(authenticatedUser.getEmail())
+                .name(authenticatedUser.getName())
+                .phoneNo(authenticatedUser.getPhoneNo())
+                .token(jwtToken)
+                .status(Status.LOGIN_SUCCESS)
+                .build();
     }
 
-    public String signUp(SignUpRequestDto signUpRequestDto) throws UserAlreadyExistsException {
+    public AuthResponseDto signUp(SignUpRequestDto signUpRequestDto) throws UserAlreadyExistsException {
         if (userRepository.existsByEmail(signUpRequestDto.email())) {
             throw new UserAlreadyExistsException("User already exists");
         }
+
         var encodedPassword = passwordEncoder.encode(signUpRequestDto.password());
 
-        var user = new User();
-        user.setEmail(signUpRequestDto.email());
-        user.setPassword(encodedPassword);
-        user.setPhoneNo(signUpRequestDto.phoneNo());
-        user.setRole("ROLE_USER");
+        var user = User.builder()
+                .email(signUpRequestDto.email())
+                .password(encodedPassword)
+                .phoneNo(signUpRequestDto.phoneNo())
+                .name(signUpRequestDto.name())
+                .role("USER")
+                .build();
 
         userRepository.save(user);
 
-        return JwtUtils.generateToken(user.getEmail());
+        String jwtToken = JwtUtils.generateToken(user.getEmail());
+
+        return AuthResponseDto.builder()
+                .email(user.getEmail())
+                .name(user.getName())
+                .phoneNo(user.getPhoneNo())
+                .token(jwtToken)
+                .status(Status.REGISTER_SUCCESS)
+                .build();
     }
 }

@@ -1,108 +1,86 @@
 package library.backend.api.models;
 
+import jakarta.persistence.Column;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
 import jakarta.persistence.Id;
 import jakarta.persistence.OneToMany;
+import lombok.AllArgsConstructor;
+import lombok.Builder;
+import lombok.Data;
+import lombok.RequiredArgsConstructor;
 import jakarta.persistence.GenerationType;
+import jakarta.validation.constraints.*;
+
+import java.util.Collection;
 import java.util.List;
-import java.util.Objects;
+
+import org.springframework.security.core.GrantedAuthority;
+import org.springframework.security.core.authority.SimpleGrantedAuthority;
+import org.springframework.security.core.authority.mapping.SimpleAuthorityMapper;
+import org.springframework.security.core.userdetails.UserDetails;
 
 @Entity
-public class User {
+@Data
+@RequiredArgsConstructor
+@AllArgsConstructor
+@Builder
+public class User implements UserDetails {
     @Id
     @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
-    private String email;
-    private String phoneNo;
-    private String password;
-    private String role;
 
-    public User(Long id, String email, String phoneNo, String password, String role, List<Issue> issues) {
-        this.id = id;
-        this.email = email;
-        this.phoneNo = phoneNo;
-        this.password = password;
-        this.role = role;
-        this.issues = issues;
-    }
+    @NotBlank(message = "Email is required")
+    @Email(message = "Email should be valid")
+    @Column(unique = true)
+    private String email;
+
+    @NotBlank(message = "Name is required")
+    private String name;
+
+    @NotBlank(message = "Phone number is required")
+    @Pattern(regexp = "\\d{10}", message = "Phone number should be 10 digits")
+    private String phoneNo;
+
+    @NotBlank(message = "Password is required")
+    private String password;
+
+    @NotBlank(message = "Role is required")
+    private String role;
 
     @OneToMany(mappedBy = "user")
     private List<Issue> issues;
 
-    public User() {
+    @Override
+    public Collection<? extends GrantedAuthority> getAuthorities() {
+        var roleMapper = new SimpleAuthorityMapper();
+        roleMapper.setConvertToUpperCase(true);
+        return roleMapper.mapAuthorities(List.of(new SimpleGrantedAuthority(this.role)));
     }
 
-    public User(String email, String phoneNo, String password) {
-        this.email = email;
-        this.phoneNo = phoneNo;
-        this.password = password;
-    }
-
-    public Long getId() {
-        return this.id;
-    }
-
-    public void setId(Long id) {
-        this.id = id;
-    }
-
-    public String getEmail() {
+    @Override
+    public String getUsername() {
         return this.email;
     }
 
-    public void setEmail(String email) {
-        this.email = email;
-    }
-
-    public String getPhoneNo() {
-        return this.phoneNo;
-    }
-
-    public void setPhoneNo(String phoneNo) {
-        this.phoneNo = phoneNo;
-    }
-
-    public String getPassword() {
-        return this.password;
-    }
-
-    public void setPassword(String password) {
-        this.password = password;
-    }
-
-    public String getRole() {
-        return this.role;
-    }
-
-    public void setRole(String role) {
-        this.role = role;
-    }
-
-    public List<Issue> getIssues() {
-        return this.issues;
-    }
-
-    public void setIssues(List<Issue> issues) {
-        this.issues = issues;
+    @Override
+    public boolean isAccountNonExpired() {
+        return true;
     }
 
     @Override
-    public boolean equals(Object o) {
-        if (this == o)
-            return true;
-        if (o == null || getClass() != o.getClass())
-            return false;
-        User user = (User) o;
-        return Objects.equals(id, user.id) &&
-                Objects.equals(email, user.email) &&
-                Objects.equals(phoneNo, user.phoneNo) &&
-                Objects.equals(password, user.password) &&
-                Objects.equals(role, user.role);
+    public boolean isAccountNonLocked() {
+        return true;
     }
 
     @Override
-    public int hashCode() {
-        return Objects.hash(id, email, phoneNo, password, role);
+    public boolean isCredentialsNonExpired() {
+        return true;
     }
+
+    @Override
+    public boolean isEnabled() {
+        return true;
+    }
+
 }
