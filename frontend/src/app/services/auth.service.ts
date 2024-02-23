@@ -1,9 +1,10 @@
-import { Injectable } from '@angular/core';
+import { Injectable, inject } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { UserInfo } from '../interfaces/user-info';
 import { Observable } from 'rxjs';
 import { SignupRequest } from '../interfaces/signup-request';
 import { LoginRequest } from '../interfaces/login-request';
+import { Router } from '@angular/router';
 
 @Injectable({
   providedIn: 'root',
@@ -11,7 +12,7 @@ import { LoginRequest } from '../interfaces/login-request';
 export class AuthService {
   private authenticatedUser: UserInfo | null = null;
   private baseUrl = 'http://localhost:8081/api/auth';
-  constructor(private http: HttpClient) {}
+  constructor(private http: HttpClient, private router: Router) {}
 
   public login(requestBody: LoginRequest): Observable<UserInfo> {
     return this.http.post<UserInfo>(`${this.baseUrl}/login`, requestBody);
@@ -24,6 +25,7 @@ export class AuthService {
   public logout() {
     this.authenticatedUser = null;
     localStorage.removeItem('user');
+    this.router.navigate(['login']);
   }
 
   get user(): UserInfo | null {
