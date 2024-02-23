@@ -7,6 +7,8 @@ import { authGuard } from './guards/auth.guard';
 import { LoginContainerComponent } from './components/login-container/login-container.component';
 import { LoginEmailComponent } from './components/login-email/login-email.component';
 import { LoginPhonenoComponent } from './components/login-phoneno/login-phoneno.component';
+import { BooksComponent } from './components/home/books/books.component';
+import { IssuesComponent } from './components/home/issues/issues.component';
 
 const routes: Routes = [
   {
@@ -32,7 +34,17 @@ const routes: Routes = [
   {
     path: 'home',
     component: HomeComponent,
-    canActivate: [authGuard],
+    //canActivate: [authGuard],
+    children: [
+      {
+        path: 'books',
+        component: BooksComponent,
+      },
+      {
+        path: 'issues',
+        component: IssuesComponent,
+      },
+    ],
   },
   {
     path: '',

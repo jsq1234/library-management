@@ -12,8 +12,8 @@ import { LogoutButtonComponent } from './components/logout-button/logout-button.
 import { LoginPhonenoComponent } from './components/login-phoneno/login-phoneno.component';
 import { LoginContainerComponent } from './components/login-container/login-container.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
-import { BooksComponent } from './components/books/books.component';
-import { IssuesComponent } from './components/issues/issues.component';
+import { BooksComponent } from './components/home/books/books.component';
+import { IssuesComponent } from './components/home/issues/issues.component';
 
 @NgModule({
   declarations: [
