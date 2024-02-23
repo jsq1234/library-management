@@ -37,16 +37,14 @@ label {
     font-size: small;
 }
 
-input[type="email"],
-input[type="password"] {
+input {
     padding: 0.5rem;
     border: 1px solid #ccc;
     border-radius: 6px;
     transition: border-color 0.2s;
 }
 
-input[type="email"]:focus,
-input[type="password"]:focus {
+input:focus {
     outline: none;
     border-color: #007bff;
     box-shadow: 0 0 2px 4px rgb(69, 149, 235);

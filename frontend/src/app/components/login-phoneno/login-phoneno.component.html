@@ -12,8 +12,8 @@
                 *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)"
                 class="s-error"
                     >
-                <div *ngIf="phoneNo.errors?.['required']">Phone No is required.</div>
-                <div *ngIf="phoneNo.errors?.['phoneNo']">Phone No should be valid</div>
+                <div *ngIf="phoneNo.errors?.['required']">Phone number is required.</div>
+                <div *ngIf="phoneNo.errors?.['phoneNo']">Phone number should be valid</div>
             </small>
         </div>
         <div class="form-field">
