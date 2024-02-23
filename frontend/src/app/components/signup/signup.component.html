@@ -1,6 +1,6 @@
 <div class="form-container">
     <h1>SIGNUP</h1>
-    <form [formGroup]="signUpForm" >
+    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" >
         <div class="form-field">
             <label for="name">Name</label>
             <input 
@@ -63,9 +63,12 @@
             <div *ngIf="password.errors?.['required']">Password is required.</div>
           </small>
         </div>
-        <!-- <small *ngIf="badCredentials" class="s-error">
+        <small *ngIf="badCredentials" class="s-error">
             <div *ngIf="badCredentials">email or password incorrect.</div>
-        </small> -->
+        </small>
+        <small *ngIf="userExist" class="s-error">
+          <div *ngIf="userExist">User already exists.</div>
+      </small>
         <button class="submit-button" [disabled]="signUpForm.invalid" type="submit">
             Sign Up
         </button>

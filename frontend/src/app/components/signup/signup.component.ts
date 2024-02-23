@@ -1,3 +1,4 @@
+import { HttpErrorResponse } from '@angular/common/http';
 import { Component } from '@angular/core';
 import { FormBuilder, Validators } from '@angular/forms';
 import { Router } from '@angular/router';
@@ -12,9 +13,15 @@ export class SignupComponent {
   signUpForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
-    name: ['', Validators.required],
-    phoneNo: ['', Validators.required, Validators.min(10), Validators.max(10)],
+    name: ['', [Validators.required]],
+    phoneNo: [
+      '',
+      [Validators.required, Validators.minLength(10), Validators.maxLength(10)],
+    ],
   });
+
+  private isBadCredentials = false;
+  private userExists = false;
   constructor(
     private formBuilder: FormBuilder,
     private router: Router,
@@ -35,5 +42,44 @@ export class SignupComponent {
 
   get name() {
     return this.signUpForm.controls['name'];
+  }
+
+  get badCredentials() {
+    return this.isBadCredentials;
+  }
+
+  get userExist() {
+    return this.userExists;
+  }
+
+  onSubmit() {
+    const { email, password, name, phoneNo } = this.signUpForm.value;
+    this.authService
+      .signUp({
+        email: email as string,
+        password: password as string,
+        name: name as string,
+        phoneNo: phoneNo as string,
+      })
+      .subscribe({
+        next: (value) => {
+          this.isBadCredentials = false;
+          this.userExists = false;
+          this.authService.user = value;
+          localStorage.setItem('user', JSON.stringify(value));
+          this.router.navigate(['/home']);
+        },
+        error: (err) => {
+          if (err instanceof HttpErrorResponse) {
+            if (err.error.status === 'UNAUTHORIZED') {
+              this.isBadCredentials = true;
+            }
+            if (err.error.status === 'CONFLICT') {
+              this.userExists = true;
+            }
+            // TODO : Add support of internal server error and a custom error page
+          }
+        },
+      });
   }
 }
