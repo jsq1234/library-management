@@ -11,6 +11,7 @@ import { HttpClientModule } from '@angular/common/http';
 import { LogoutButtonComponent } from './components/logout-button/logout-button.component';
 import { LoginPhonenoComponent } from './components/login-phoneno/login-phoneno.component';
 import { LoginContainerComponent } from './components/login-container/login-container.component';
+import { SideBarComponent } from './components/side-bar/side-bar.component';
 
 @NgModule({
   declarations: [
@@ -21,6 +22,7 @@ import { LoginContainerComponent } from './components/login-container/login-cont
     LogoutButtonComponent,
     LoginPhonenoComponent,
     LoginContainerComponent,
+    SideBarComponent,
   ],
   imports: [
     BrowserModule,
