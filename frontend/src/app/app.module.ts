@@ -12,6 +12,8 @@ import { LogoutButtonComponent } from './components/logout-button/logout-button.
 import { LoginPhonenoComponent } from './components/login-phoneno/login-phoneno.component';
 import { LoginContainerComponent } from './components/login-container/login-container.component';
 import { SideBarComponent } from './components/side-bar/side-bar.component';
+import { BooksComponent } from './components/books/books.component';
+import { IssuesComponent } from './components/issues/issues.component';
 
 @NgModule({
   declarations: [
@@ -23,6 +25,8 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
     LoginPhonenoComponent,
     LoginContainerComponent,
     SideBarComponent,
+    BooksComponent,
+    IssuesComponent,
   ],
   imports: [
     BrowserModule,
