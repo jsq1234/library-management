@@ -2,16 +2,11 @@
 *, :root, ::before, ::after{
     box-sizing: border-box;
     font-family: Verdana, Geneva, Tahoma, sans-serif;
-    --primary: #DD946F ;
-    --primary-hover: #CD7D7C;                
-    --secondary: #EFD0F8;
-    --secondary-hover: #B8A1D9;
-    --aura: #9743ff80;
-    --background: #806dff;
 }
 body{
     margin: 0px;
     height: 100%;
+    background: linear-gradient(to right, #d1edff, #8dbff5, #5acbee);
 }
 
 p{
