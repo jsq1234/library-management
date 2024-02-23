@@ -1,15 +1,27 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import { LoginComponent } from './components/login/login.component';
 import { SignupComponent } from './components/signup/signup.component';
 import { HomeComponent } from './components/home/home.component';
 import { userGuard } from './guards/user.guard';
 import { authGuard } from './guards/auth.guard';
+import { LoginContainerComponent } from './components/login-container/login-container.component';
+import { LoginEmailComponent } from './components/login-email/login-email.component';
+import { LoginPhonenoComponent } from './components/login-phoneno/login-phoneno.component';
 
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginComponent,
+    component: LoginContainerComponent,
+    canActivate: [userGuard],
+  },
+  {
+    path: 'login/email',
+    component: LoginEmailComponent,
+    canActivate: [userGuard],
+  },
+  {
+    path: 'login/phoneno',
+    component: LoginPhonenoComponent,
     canActivate: [userGuard],
   },
   {

@@ -5,11 +5,11 @@ import { Router } from '@angular/router';
 import { AuthService } from 'src/app/services/auth.service';
 
 @Component({
-  selector: 'app-login',
-  templateUrl: './login.component.html',
-  styleUrls: ['./login.component.css'],
+  selector: 'app-login-email',
+  templateUrl: './login-email.component.html',
+  styleUrls: ['./login-email.component.css'],
 })
-export class LoginComponent {
+export class LoginEmailComponent {
   loginForm = this.formBuilder.group({
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
@@ -36,7 +36,7 @@ export class LoginComponent {
   onSubmit() {
     const { email, password } = this.loginForm.value;
     this.authService
-      .login({
+      .loginByEmail({
         email: email as string,
         password: password as string,
       })
