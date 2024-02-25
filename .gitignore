@@ -1,0 +1,5 @@
+backend/.idea/
+backend/api/.idea
+frontend/.vscode/
+.vscode/
+frontend/src/.vscode
