@@ -1,2 +1,4 @@
-package library.backend.api.controllers;public class IssueController {
+package library.backend.api.controllers;
+
+public class IssueController {
 }
