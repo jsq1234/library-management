@@ -50,7 +50,7 @@ public class SecurityConfig {
                                                 .requestMatchers("/api/auth/login/**").permitAll()
                                                 .requestMatchers("/api/auth/signup/**").permitAll()
                                                 .requestMatchers("/error/**").permitAll()
-                                                .anyRequest().authenticated());
+                                                .anyRequest().permitAll());
 
                 // Authentication Entry Point -> Exception Handler
                 http.exceptionHandling(
