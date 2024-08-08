@@ -15,6 +15,7 @@ import { SideBarComponent } from './components/side-bar/side-bar.component';
 import { BooksComponent } from './components/home/books/books.component';
 import { IssuesComponent } from './components/home/issues/issues.component';
 import { CommonModule } from '@angular/common';
+import { LoaderComponent } from './components/common/loader/loader.component';
 
 @NgModule({
   declarations: [
@@ -28,6 +29,7 @@ import { CommonModule } from '@angular/common';
     SideBarComponent,
     BooksComponent,
     IssuesComponent,
+    LoaderComponent,
   ],
   imports: [
     BrowserModule,

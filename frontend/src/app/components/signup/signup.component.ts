@@ -14,11 +14,9 @@ export class SignupComponent {
     email: ['', [Validators.required, Validators.email]],
     password: ['', [Validators.required]],
     name: ['', [Validators.required]],
-    phoneNo: [
-      '',
-      [Validators.required, Validators.minLength(10), Validators.maxLength(10)],
-    ],
   });
+
+  isLoading = false;
 
   private isBadCredentials = false;
   private userExists = false;
@@ -36,10 +34,6 @@ export class SignupComponent {
     return this.signUpForm.controls['password'];
   }
 
-  get phoneNo() {
-    return this.signUpForm.controls['phoneNo'];
-  }
-
   get name() {
     return this.signUpForm.controls['name'];
   }
@@ -53,13 +47,13 @@ export class SignupComponent {
   }
 
   onSubmit() {
-    const { email, password, name, phoneNo } = this.signUpForm.value;
+    const { email, password, name } = this.signUpForm.value;
+    this.isLoading = true;
     this.authService
       .signUp({
         email: email as string,
         password: password as string,
-        name: name as string,
-        phoneNo: phoneNo as string,
+        name: name as string
       })
       .subscribe({
         next: (value) => {
@@ -67,9 +61,11 @@ export class SignupComponent {
           this.userExists = false;
           this.authService.user = value;
           localStorage.setItem('user', JSON.stringify(value));
+          this.isLoading = false;
           this.router.navigate(['/home']);
         },
         error: (err) => {
+          setTimeout(() => this.isLoading = false, 4000);
           if (err instanceof HttpErrorResponse) {
             if (err.error.status === 'UNAUTHORIZED') {
               this.isBadCredentials = true;
