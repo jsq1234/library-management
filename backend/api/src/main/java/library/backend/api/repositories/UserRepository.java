@@ -12,7 +12,6 @@ import library.backend.api.models.User;
 public interface UserRepository extends JpaRepository<User, Long> {
     Optional<User> findByEmailOrPhoneNo(String email, String username);
 
-    @Query("SELECT u FROM User u WHERE u.email = ?1")
     Optional<User> findByEmail(String email);
 
     Optional<User> findByPhoneNo(String phoneNo);

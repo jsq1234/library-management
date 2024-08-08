@@ -15,7 +15,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
-import library.backend.api.dto.ErrorDto;
+import library.backend.api.dto.ApiError;
 
 @Component
 public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint {
@@ -32,7 +32,7 @@ public class CustomAuthenticationEntryPoint implements AuthenticationEntryPoint 
         logger.error("Authentication failed: {}", authException.getMessage());
 
         // Serialize the ErrorDto object to JSON
-        ErrorDto errorDto = new ErrorDto(HttpStatus.UNAUTHORIZED, authException.getMessage());
+        ApiError errorDto = new ApiError(HttpStatus.UNAUTHORIZED, authException.getMessage());
         String jsonErrorDto = mapper.writeValueAsString(errorDto);
 
         logger.debug("Serialized ErrorDto: {}", jsonErrorDto);

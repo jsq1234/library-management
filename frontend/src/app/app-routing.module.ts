@@ -13,17 +13,7 @@ import { IssuesComponent } from './components/home/issues/issues.component';
 const routes: Routes = [
   {
     path: 'login',
-    component: LoginContainerComponent,
-    canActivate: [userGuard],
-  },
-  {
-    path: 'login/email',
     component: LoginEmailComponent,
-    canActivate: [userGuard],
-  },
-  {
-    path: 'login/phoneno',
-    component: LoginPhonenoComponent,
     canActivate: [userGuard],
   },
   {

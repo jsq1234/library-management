@@ -2,7 +2,7 @@ package library.backend.api;
 
 import com.fasterxml.jackson.databind.ObjectMapper;
 
-import library.backend.api.dto.SignUpRequestDto;
+import library.backend.api.dto.SignUpRequest;
 import library.backend.api.models.User;
 import library.backend.api.repositories.UserRepository;
 import org.junit.jupiter.api.Test;
@@ -19,8 +19,6 @@ import static org.mockito.ArgumentMatchers.any;
 import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
-
-import java.util.HashMap;
 
 @SpringBootTest
 @AutoConfigureMockMvc
@@ -48,7 +46,7 @@ public class AuthenticationSignUpIntegrationTest {
 
         when(userRepository.existsByEmail(any())).thenReturn(true);
 
-        SignUpRequestDto dto = new SignUpRequestDto("test", "test@example.com", "8178610509", "password");
+        SignUpRequest dto = new SignUpRequest("test", "test@example.com", "8178610509", "password");
 
         mockMvc.perform(MockMvcRequestBuilders.post("/api/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)
@@ -62,7 +60,7 @@ public class AuthenticationSignUpIntegrationTest {
     void SignUp_ReturnsJwtToken() throws Exception {
         when(userRepository.existsByEmail(any())).thenReturn(false);
 
-        SignUpRequestDto dto = new SignUpRequestDto("manan", "text@example.com", "8178610509", "password");
+        SignUpRequest dto = new SignUpRequest("manan", "text@example.com", "8178610509", "password");
 
         var request = MockMvcRequestBuilders.post("/api/auth/signup")
                 .contentType(MediaType.APPLICATION_JSON)

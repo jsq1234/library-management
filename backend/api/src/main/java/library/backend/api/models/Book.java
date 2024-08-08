@@ -28,5 +28,4 @@ public class Book {
     private String ISBN;
     private String genre;
     private LocalDate publishDate;
-
 }

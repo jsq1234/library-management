@@ -1,77 +1,114 @@
-<div class="form-container">
-    <h1>SIGNUP</h1>
-    <form [formGroup]="signUpForm" (ngSubmit)="onSubmit()" >
-        <div class="form-field">
-            <label for="name">Name</label>
-            <input 
-            [class.error] = "(name.invalid && (name.dirty || name.touched))"
-            type="text" 
-            name="name" 
-            formControlName="name"
-            required />
-            <small
-            *ngIf="name.invalid && (name.dirty || name.touched)"
-            class="s-error"
-          >
-            <div *ngIf="name.errors?.['required']">Name is required.</div>
-          </small>
-        </div>
-        <div class="form-field">
-            <label for="email">Email</label>
-            <input 
-            [class.error] = "(email.invalid && (email.dirty || email.touched))"
-            type="email" 
-            placeholder="test@example.com" 
-            name="email" 
-            formControlName="email"
-            required />
-            <small
-                *ngIf="email.invalid && (email.dirty || email.touched)"
-                class="s-error"
-                    >
-                <div *ngIf="email.errors?.['required']">Email is required.</div>
-                <div *ngIf="email.errors?.['email']">Email should be valid</div>
-            </small>
-        </div>
-        <div class="form-field">
-            <label for="phoneNo">Phone No</label>
-            <input 
-            [class.error] = "(phoneNo.invalid && (phoneNo.dirty || phoneNo.touched))"
-            type="text" 
-            name="phoneNo" 
-            formControlName="phoneNo"
-            required />
-            <small
-            *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)"
-            class="s-error"
-          >
-            <div *ngIf="phoneNo.errors?.['required']">Phone Number is required.</div>
-          </small>
-        </div>
-        <div class="form-field">
-            <label for="password">Password</label>
-            <input 
-            [class.error] = "(password.invalid && (password.dirty || password.touched))"
-            type="password" 
-            name="password" 
-            formControlName="password"
-            required />
-            <small
-            *ngIf="password.invalid && (password.dirty || password.touched)"
-            class="s-error"
-          >
-            <div *ngIf="password.errors?.['required']">Password is required.</div>
-          </small>
-        </div>
-        <small *ngIf="badCredentials" class="s-error">
-            <div *ngIf="badCredentials">email or password incorrect.</div>
+<div class="lg:flex lg:h-screen">
+  <aside class="basis-2/3">
+    <img src="assets/images/books.jpg" alt="books side-bar" class="h-full" />
+  </aside>
+  <div class="flex flex-col gap-10 border-2 lg:basis-1/3 w-full justify-center bg-slate-100">
+    <form
+      [formGroup]="signUpForm"
+      (ngSubmit)="onSubmit()"
+      class="flex flex-col gap-8 px-10"
+    >
+      <h1 class="font-semibold text-2xl w-full m-0 text-center">SIGNUP</h1>
+      <div class="flex flex-col space-y-1">
+        <label for="name">Name</label>
+        <input
+          [ngClass]="[
+            'rounded-md border p-2 outline-none focus:ring-2 focus:ring-zinc-400',
+            name.invalid && (name.dirty || name.touched)
+              ? 'border-2 border-red-600'
+              : 'border-zinc-500'
+          ]"
+          type="text"
+          name="name"
+          formControlName="name"
+          required
+        />
+        <small
+          *ngIf="name.invalid && (name.dirty || name.touched)"
+          class="text-red-500"
+        >
+          <div *ngIf="name.errors?.['required']">Name is required.</div>
         </small>
-        <small *ngIf="userExist" class="s-error">
-          <div *ngIf="userExist">User already exists.</div>
+      </div>
+      <div class="flex flex-col space-y-1">
+        <label for="email">Email</label>
+        <input
+          [ngClass]="[
+            'rounded-md border p-2 outline-none focus:ring-2 focus:ring-zinc-400',
+            email.invalid && (email.dirty || email.touched)
+              ? 'border-2 border-red-600'
+              : 'border-zinc-500'
+          ]"
+          type="email"
+          placeholder="test@example.com"
+          name="email"
+          formControlName="email"
+          required
+        />
+        <small
+          *ngIf="email.invalid && (email.dirty || email.touched)"
+          class="text-red-500"
+        >
+          <div *ngIf="email.errors?.['required']">Email is required.</div>
+          <div *ngIf="email.errors?.['email']">Email should be valid</div>
+        </small>
+      </div>
+      <div class="flex flex-col space-y-1">
+        <label for="phoneNo">Phone No</label>
+        <input
+          [ngClass]="[
+            'rounded-md border p-2 outline-none focus:ring-2 focus:ring-zinc-400',
+            phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)
+              ? 'border-2 border-red-600'
+              : 'border-zinc-500'
+          ]"
+          type="text"
+          name="phoneNo"
+          formControlName="phoneNo"
+          required
+        />
+        <small
+          *ngIf="phoneNo.invalid && (phoneNo.dirty || phoneNo.touched)"
+          class="text-red-500"
+        >
+          <div *ngIf="phoneNo.errors?.['required']">
+            Phone Number is required.
+          </div>
+        </small>
+      </div>
+      <div class="flex flex-col space-y-1">
+        <label for="password">Password</label>
+        <input
+          [ngClass]="[
+            'rounded-md border p-2 outline-none focus:ring-2 focus:ring-zinc-400',
+            password.invalid && (password.dirty || password.touched)
+              ? 'border-2 border-red-600'
+              : 'border-zinc-500'
+          ]"
+          type="password"
+          name="password"
+          formControlName="password"
+          required
+        />
+        <small
+          *ngIf="password.invalid && (password.dirty || password.touched)"
+          class="text-red-500"
+        >
+          <div *ngIf="password.errors?.['required']">Password is required.</div>
+        </small>
+      </div>
+      <small *ngIf="badCredentials" class="text-red-500">
+        <div *ngIf="badCredentials">email or password incorrect.</div>
       </small>
-        <button class="submit-button" [disabled]="signUpForm.invalid" type="submit">
-            Sign Up
+      <small *ngIf="userExist" class="text-red-500">
+        <div *ngIf="userExist">User already exists.</div>
+      </small>
+      <div class="flex flex-col space-y-2">
+        <button class="border-2 bg-cyan-500 p-2 text-lg font-semibold rounded-lg outline-none border-none hover:shadow-md hover:shadow-cyan-300 transition-all" [disabled]="signUpForm.invalid" type="submit">
+          Sign Up
         </button>
-        <div class="goto-register">Already registered? <a routerLink="/login">Login</a></div>
+        <div class="">Already registered? <a class="text-blue-600 font-semibold" routerLink="/login">Login</a></div>
+      </div>
     </form>
+  </div>
 </div>

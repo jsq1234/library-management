@@ -4,7 +4,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import library.backend.api.dto.SignUpRequestDto;
+import library.backend.api.dto.SignUpRequest;
 import library.backend.api.models.User;
 import library.backend.api.models.Issue;
 import library.backend.api.repositories.UserRepository;
@@ -18,7 +18,7 @@ public class UserService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
 
-    public User createUser(SignUpRequestDto signUpRequestDto, String role) {
+    public User createUser(SignUpRequest signUpRequestDto, String role) {
         var encodedPassword = passwordEncoder.encode(signUpRequestDto.password());
 
         var user = User.builder()

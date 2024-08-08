@@ -6,9 +6,9 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
 import library.backend.api.utils.Status;
-import library.backend.api.dto.AuthResponseDto;
-import library.backend.api.dto.LoginRequestDto;
-import library.backend.api.dto.SignUpRequestDto;
+import library.backend.api.dto.AuthResponse;
+import library.backend.api.dto.LoginRequest;
+import library.backend.api.dto.SignUpRequest;
 import library.backend.api.exceptions.MissingLoginFieldsException;
 import library.backend.api.exceptions.UserAlreadyExistsException;
 import library.backend.api.models.User;
@@ -29,7 +29,7 @@ public class AuthService {
         this.userRepository = userRepository;
     }
 
-    public AuthResponseDto login(LoginRequestDto loginRequest) throws MissingLoginFieldsException {
+    public AuthResponse login(LoginRequest loginRequest) throws MissingLoginFieldsException {
         if (loginRequest.password() == null || (loginRequest.email() == null && loginRequest.phoneNo() == null)) {
             throw new MissingLoginFieldsException("Incorrect login message format");
         }
@@ -42,12 +42,12 @@ public class AuthService {
 
     }
 
-    private AuthResponseDto loginAndGenerateJwtToken(String username, String password) {
+    private AuthResponse loginAndGenerateJwtToken(String username, String password) {
         var authToken = new UsernamePasswordAuthenticationToken(username, password);
         var authenticate = authManager.authenticate(authToken);
         var authenticatedUser = (User) authenticate.getPrincipal();
         String jwtToken = JwtUtils.generateToken(authenticatedUser.getUsername());
-        return AuthResponseDto.builder()
+        return AuthResponse.builder()
                 .email(authenticatedUser.getEmail())
                 .name(authenticatedUser.getName())
                 .phoneNo(authenticatedUser.getPhoneNo())
@@ -57,7 +57,7 @@ public class AuthService {
                 .build();
     }
 
-    public AuthResponseDto signUp(SignUpRequestDto signUpRequestDto) throws UserAlreadyExistsException {
+    public AuthResponse signUp(SignUpRequest signUpRequestDto) throws UserAlreadyExistsException {
         if (userRepository.existsByEmail(signUpRequestDto.email())) {
             throw new UserAlreadyExistsException("User already exists");
         }
@@ -76,7 +76,7 @@ public class AuthService {
 
         String jwtToken = JwtUtils.generateToken(user.getEmail());
 
-        return AuthResponseDto.builder()
+        return AuthResponse.builder()
                 .email(user.getEmail())
                 .name(user.getName())
                 .phoneNo(user.getPhoneNo())

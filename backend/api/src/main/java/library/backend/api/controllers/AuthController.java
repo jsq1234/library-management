@@ -8,9 +8,9 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import jakarta.validation.Valid;
-import library.backend.api.dto.AuthResponseDto;
-import library.backend.api.dto.LoginRequestDto;
-import library.backend.api.dto.SignUpRequestDto;
+import library.backend.api.dto.AuthResponse;
+import library.backend.api.dto.LoginRequest;
+import library.backend.api.dto.SignUpRequest;
 import library.backend.api.services.AuthService;
 
 @RestController
@@ -24,16 +24,16 @@ public class AuthController {
     }
 
     @PostMapping("/login")
-    public ResponseEntity<AuthResponseDto> login(@RequestBody LoginRequestDto loginRequestDto) {
-        AuthResponseDto response = authService.login(loginRequestDto);
+    public ResponseEntity<AuthResponse> login(@Valid @RequestBody LoginRequest loginRequest) {
+        AuthResponse response = authService.login(loginRequest);
         return ResponseEntity
                 .status(HttpStatus.OK)
                 .body(response);
     }
 
     @PostMapping("/signup")
-    public ResponseEntity<AuthResponseDto> signUp(@Valid @RequestBody SignUpRequestDto signUpRequestDto) {
-        AuthResponseDto response = authService.signUp(signUpRequestDto);
+    public ResponseEntity<AuthResponse> signUp(@Valid @RequestBody SignUpRequest signUpRequest) {
+        AuthResponse response = authService.signUp(signUpRequest);
         return ResponseEntity
                 .status(HttpStatus.CREATED)
                 .body(response);
